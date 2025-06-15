@@ -1,91 +1,135 @@
-# Occupancy Detection using Environmental Sensors and 1D CNN (FYP – EE3636)
 
-## 📌 Overview
+# 🧠 Final Year Project – Edge AI Occupancy Detection using Conv1D
 
-This project was developed as part of the **Final Year Engineering Project (EE3636)** in the BEng Computer Systems Engineering program at **Brunel University London**.
+This repository contains the code, model, and evaluation results for my **final-year BEng Computer Systems Engineering project**, focused on **real-time occupancy detection** using environmental sensor data and a **1D Convolutional Neural Network (Conv1D)**. The final trained model is **quantized for edge deployment** on devices like the Raspberry Pi.
 
-The system detects **human occupancy** using **time-series environmental sensor data** (temperature, humidity, gas levels, etc.) processed by a **1D Convolutional Neural Network (CNN)**. The model runs on a **Raspberry Pi**, enabling **on-device inference** without the need for cloud-based computation.
+---
+
+## 📌 Project Summary
+
+The system detects **occupancy (motion)** using a series of inexpensive sensors (e.g. DHT11, PM2.5, infrared). It transforms raw sensor readings into **time-series windows** and uses a deep Conv1D neural network to classify whether the room is **occupied or empty**.
+
+✅ Designed for **resource-constrained edge devices**  
+✅ Model trained and optimized in **TensorFlow**, converted to **TensorFlow Lite (TFLite)**  
+✅ Evaluated with metrics suitable for deployment and academic research
 
 ---
 
 ## 🎯 Objectives
 
-- Develop a **low-cost, edge AI solution** for room occupancy detection
-- Integrate multiple sensors (e.g., DHT11, MQ sensors, IR thermal imaging)
-- Design and train a **1D CNN using TensorFlow/Keras**
-- Deploy the trained model on a **Raspberry Pi with Python**
-- Evaluate the model using **real sensor input + inference performance**
+- Predict motion/occupancy from multi-sensor time-series data  
+- Optimize a deep learning model for **TinyML / Edge AI deployment**  
+- Evaluate model performance using real-world metrics (F1, ROC-AUC, confusion matrix)  
+- Ensure compatibility with low-power hardware (e.g., Raspberry Pi, microcontrollers)
 
 ---
 
-## ⚙️ Tech Stack
+## 🗂️ Dataset
 
-- 💻 **Raspberry Pi 5 Model B**
-- 🧠 **TensorFlow / Keras** (1D CNN Model)
-- 🧪 **Python** for data collection, preprocessing, and deployment
-- 🌡️ Sensors: DHT11 (temperature/humidity), MQ-series (air quality), MLX90640 (thermal)
-- 📦 **Edge Impulse** (optional: for TFLite conversion)
-- 📈 Model evaluated using **accuracy, F1 score, and confusion matrix**
+CSV file:  
+```
+merged_env_motion.csv
+```
 
----
-
-## 🧪 Features
-
-- 🧠 Real-time 1D CNN inference on Raspberry Pi
-- 🌡️ Multi-sensor integration (environmental + thermal)
-- 💾 Sliding window data capture & buffering
-- 📊 Visualization of classification results (e.g., via GUI or terminal)
-- 📉 ROC-AUC & F1 Score metrics used for validation
+Must include:
+- Environmental features (e.g. `temperature`, `humidity`, `alcohol`, `pm2.5`)
+- Binary target: `motion` (0 = no motion, 1 = motion)
+- Timestamps and optional features (`light`, `smoke`, etc.) are handled automatically.
 
 ---
 
-## 🗂 Repo Structure
+## 📈 Model Architecture
 
-├── model/
-│ ├── occupancy_1dcnn.h5 # Trained Keras model
-│ ├── tflite_model.tflite # (optional) for edge deployment
-├── src/
-│ ├── main_pipeline.py # Sensor reading + inference
-│ ├── preprocess.py # Sliding window + normalization
-│ └── utils.py # Supporting functions
-├── docs/
-│ └── final_report.pdf # Final technical write-up
-├── media/
-│ └── system_architecture.png # System design diagram
-└── README.md
+```
+Input (100 timesteps, N features)
+↓
+Conv1D (64 filters) + BatchNorm + MaxPool
+↓
+Conv1D (128 filters) + BatchNorm + MaxPool
+↓
+Conv1D (256 filters) + BatchNorm + MaxPool
+↓
+Flatten → Dense(128) → Dropout
+↓
+Dense(64) → Dropout
+↓
+Output: Dense(1, sigmoid)
+```
 
-
----
-
-## 📄 Report
-
-📥 [Final Report](./docs/final_report.pdf)  
-Contains:
-- Problem definition, system architecture
-- Sensor integration and data collection
-- CNN architecture and training process
-- Testing, evaluation, and deployment
-- Discussion of energy efficiency and edge AI constraints
+Trained with:
+- Binary crossentropy loss
+- Adam optimizer
+- Class balancing
+- Early stopping on validation loss
 
 ---
 
-## 🖼️ Poster & Demo
+## 🧪 Evaluation Metrics
 
-📅 Presented on **7 May 2025** at Brunel EEE Poster Day  
-🎥 *Demo video available upon request*
-
----
-
-## 👤 Author
-
-**Y. Benjamin Perez Condori**  
-BEng Computer Systems Engineering  
-Brunel University London  
-📧 y.benjamin_pc@hotmail.com  
-🔗 [LinkedIn](https://www.linkedin.com/in/ybenjaminpc/)
+All metrics are printed after training:
+- ✅ Accuracy
+- ✅ Precision
+- ✅ Recall
+- ✅ F1 Score
+- ✅ ROC-AUC
+- ✅ Log Loss
+- ✅ Confusion Matrix (Heatmap)
+- ✅ ROC Curve
 
 ---
 
-## 🛡 Disclaimer
+## 💾 Model Outputs
 
-This repository contains **original work** created for educational and portfolio purposes only. No internal university documents or third-party IP are included.
+- `best_conv1d_model.keras` – Native Keras format
+- `model_float32.tflite` – Full precision for testing
+- `model_float16.tflite` – Optimized for deployment (Edge AI / Raspberry Pi)
+
+---
+
+## 📦 Requirements
+
+```bash
+pip install pandas numpy scikit-learn tensorflow matplotlib seaborn
+```
+
+---
+
+## ▶️ How to Run
+
+```bash
+python occupancy_conv1d.py
+```
+
+Ensure the CSV file is in the correct path and named `merged_env_motion.csv`.
+
+---
+
+## 🔗 Related Work
+
+- 📄 [Dissertation PDF](#) *(Upload and update the link when ready)*
+- 📊 [Project Poster](#) *(Optional)*
+- 💻 Runs on: Raspberry Pi 5 Model B (on-device inference tested)
+
+---
+
+## 🛠️ Deployment Notes
+
+- Model supports conversion to TFLite (float16) for **TinyML applications**
+- Ideal for integration with sensor platforms using **Python + TensorFlow Lite Runtime**
+- May be extended to real-time inference with camera + sensor fusion
+
+---
+
+## 📚 Citation
+
+If you use this in academic work:
+
+```
+Y. B. Perez Condori, "Edge AI Occupancy Detection Using Conv1D and Environmental Sensor Data," Final Year Project, Brunel University London, 2025.
+```
+
+---
+
+## 📄 License
+
+MIT License – use, share, or extend freely.

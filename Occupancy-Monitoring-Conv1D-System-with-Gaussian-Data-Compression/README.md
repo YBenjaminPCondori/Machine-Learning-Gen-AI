@@ -17,16 +17,15 @@ The system detects **occupancy (motion)** using a series of inexpensive sensors 
 
 ## 🎯 Objectives
 
+<p align="center">
+  <img src="../system%20design%20occupancy%20monitoring%20TINYML.png" alt="System Overview" width="500">
+</p>
+
 - Predict motion/occupancy from multi-sensor time-series data  
 - Optimize a deep learning model for **TinyML / Edge AI deployment**  
 - Evaluate model performance using real-world metrics (F1, ROC-AUC, confusion matrix)  
 - Ensure compatibility with low-power hardware (e.g., Raspberry Pi, microcontrollers)
 
-![Alt Text]()
-
-<p align="center">
-  <img src="../system%20design%20occupancy%20monitoring%20TINYML.png" alt="System Overview" width="500">
-</p>
 
 ---
 
@@ -46,21 +45,7 @@ Must include:
 
 ## 📈 Model Architecture
 
-```
-Input (100 timesteps, N features)
-↓
-Conv1D (64 filters) + BatchNorm + MaxPool
-↓
-Conv1D (128 filters) + BatchNorm + MaxPool
-↓
-Conv1D (256 filters) + BatchNorm + MaxPool
-↓
-Flatten → Dense(128) → Dropout
-↓
-Dense(64) → Dropout
-↓
-Output: Dense(1, sigmoid)
-```
+
 
 <p align="center">
   <img src="../NN%20Architecture.png" alt="NN Architecture" width="500">

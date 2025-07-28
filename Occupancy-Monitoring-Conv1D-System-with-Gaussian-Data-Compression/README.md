@@ -22,6 +22,8 @@ The system detects **occupancy (motion)** using a series of inexpensive sensors 
 - Evaluate model performance using real-world metrics (F1, ROC-AUC, confusion matrix)  
 - Ensure compatibility with low-power hardware (e.g., Raspberry Pi, microcontrollers)
 
+![Alt Text](../system%20design%20occupancy%20monitoring%20TINYML.png)
+
 ---
 
 ## 🗂️ Dataset

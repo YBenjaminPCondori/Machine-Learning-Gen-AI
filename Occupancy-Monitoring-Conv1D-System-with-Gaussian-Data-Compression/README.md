@@ -1,5 +1,5 @@
 
-# 🧠 Final Year Project – Edge AI Occupancy Detection using Conv1D
+#  Final Year Project – Edge AI Occupancy Detection using Conv1D
 
 This repository contains the code, model, and evaluation results for my **final-year BEng Computer Systems Engineering project**, focused on **real-time occupancy detection** using environmental sensor data and a **1D Convolutional Neural Network (Conv1D)**. The final trained model is **quantized for edge deployment** on devices like the Raspberry Pi.
 
@@ -9,7 +9,7 @@ This repository contains the code, model, and evaluation results for my **final-
 
 The system detects **occupancy (motion)** using a series of inexpensive sensors (e.g. DHT11, PM2.5, infrared). It transforms raw sensor readings into **time-series windows** and uses a deep Conv1D neural network to classify whether the room is **occupied or empty**.
 
-✅ Designed for **resource-constrained edge devices**  
+✅ Designed for **resource-constrained low-power devices, enabled with an operating system**
 ✅ Model trained and optimized in **TensorFlow**, converted to **TensorFlow Lite (TFLite)**  
 ✅ Evaluated with metrics suitable for deployment and academic research
 
@@ -70,6 +70,7 @@ Trained with:
 ## 🧪 Evaluation Metrics
 
 All metrics are printed after training:
+
 - ✅ Accuracy
 - ✅ Precision
 - ✅ Recall
@@ -84,8 +85,8 @@ All metrics are printed after training:
 ## 💾 Model Outputs
 
 - `best_conv1d_model.keras` – Native Keras format
-- `model_float32.tflite` – Full precision for testing
-- `model_float16.tflite` – Optimized for deployment (Edge AI / Raspberry Pi)
+- `model_float32.tflite` – Full precision for testing - 32 bit
+- `model_float8.tflite` – Optimized for deployment - 8 bit
 
 ---
 
@@ -95,9 +96,17 @@ All metrics are printed after training:
 pip install pandas numpy scikit-learn tensorflow matplotlib seaborn
 ```
 
+The Pandas and Numpy library, are very imporant to carry out data cleaning/preprocessing tasks.
+
 ---
 
 ## ▶️ How to Run
+
+1. Simply make sure your microcontroller/single board computer has a Linus OS, or a bare-metal Operating System that can run Machine Learning models, e.g. Tensorflow Lite Micro etc.
+
+2. Attach the Dataset that you would like to train the model with
+
+3. 
 
 ```bash
 python occupancy_conv1d.py
@@ -109,8 +118,7 @@ Ensure the CSV file is in the correct path and named `merged_env_motion.csv`.
 
 ## 🔗 Related Work
 
-- 📄 [Dissertation PDF](#) *(Upload and update the link when ready)*
-- 📊 [Project Poster](#) *(Optional)*
+- 📊 [Project Poster](../poster.pdf) 
 - 💻 Runs on: Raspberry Pi 5 Model B (on-device inference tested)
 
 ---
@@ -120,15 +128,14 @@ Ensure the CSV file is in the correct path and named `merged_env_motion.csv`.
 - Model supports conversion to TFLite (float16) for **TinyML applications**
 - Ideal for integration with sensor platforms using **Python + TensorFlow Lite Runtime**
 - May be extended to real-time inference with camera + sensor fusion
-
+- May be extended to real-time inference with low-power systems, e.g. Raspberry Pi Nano microcontrollers
 ---
 
 ## 📚 Citation
 
-If you use this in academic work:
 
 ```
-Y. B. Perez Condori, "Edge AI Occupancy Detection Using Conv1D and Environmental Sensor Data," Final Year Project, Brunel University London, 2025.
+Y. B. Perez Condori, "Edge AI Occupancy Detection Using Conv1D and Environmental Sensor Data," Final Year Project, Brunel University of London, 2025.
 ```
 
 ---

@@ -22,7 +22,11 @@ The system detects **occupancy (motion)** using a series of inexpensive sensors 
 - Evaluate model performance using real-world metrics (F1, ROC-AUC, confusion matrix)  
 - Ensure compatibility with low-power hardware (e.g., Raspberry Pi, microcontrollers)
 
-![Alt Text](../system%20design%20occupancy%20monitoring%20TINYML.png)
+![Alt Text]()
+
+<p align="center">
+  <img src="../system%20design%20occupancy%20monitoring%20TINYML.png" alt="System Overview" width="500">
+</p>
 
 ---
 
@@ -58,7 +62,10 @@ Dense(64) → Dropout
 Output: Dense(1, sigmoid)
 ```
 
-![Alt Text](../NN%20Architecture.png)
+<p align="center">
+  <img src="../NN%20Architecture.png" alt="NN Architecture" width="500">
+</p>
+
 
 
 Trained with:

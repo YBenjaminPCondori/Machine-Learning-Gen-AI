@@ -56,7 +56,7 @@ Dense(64) → Dropout
 Output: Dense(1, sigmoid)
 ```
 
-[Neural Network Architecture of CNN](<.../NN Architecture.png>)
+[Neural Network Architecture of CNN](<../NN Architecture.png>)
 
 Trained with:
 - Binary crossentropy loss

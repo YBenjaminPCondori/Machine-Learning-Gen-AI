@@ -1,135 +1,135 @@
 
-# 🧠 Final Year Project – Edge AI Occupancy Detection using Conv1D
+<h1 align="center">📡 Final Year Project – Edge AI Occupancy Detection using Conv1D</h1>
 
-This repository contains the code, model, and evaluation results for my **final-year BEng Computer Systems Engineering project**, focused on **real-time occupancy detection** using environmental sensor data and a **1D Convolutional Neural Network (Conv1D)**. The final trained model is **quantized for edge deployment** on devices like the Raspberry Pi.
+<p align="center">
+  <em>This repository presents the complete pipeline for deploying an Edge AI occupancy detection model using environmental sensor data and a lightweight Conv1D neural network.</em>
+</p>
 
----
+<p align="center">
+  <strong>BEng Computer Systems Engineering | Brunel University London | 2025</strong>
+</p>
+
+<hr/>
 
 ## 📌 Project Summary
 
-The system detects **occupancy (motion)** using a series of inexpensive sensors (e.g. DHT11, PM2.5, infrared). It transforms raw sensor readings into **time-series windows** and uses a deep Conv1D neural network to classify whether the room is **occupied or empty**.
+This system detects **occupancy (motion)** using inexpensive sensors (DHT11, PM2.5, IR) and processes the data into **time-series windows** for classification via a deep **1D Convolutional Neural Network (Conv1D)**.
 
-✅ Designed for **resource-constrained edge devices**  
-✅ Model trained and optimized in **TensorFlow**, converted to **TensorFlow Lite (TFLite)**  
-✅ Evaluated with metrics suitable for deployment and academic research
+- ✅ Built for **resource-constrained edge devices**
+- ✅ Trained using **TensorFlow**, optimized with **TFLite** for deployment
+- ✅ Evaluated with real-world ML metrics (F1, ROC-AUC, confusion matrix)
 
 ---
 
 ## 🎯 Objectives
 
-- Predict motion/occupancy from multi-sensor time-series data  
-- Optimize a deep learning model for **TinyML / Edge AI deployment**  
-- Evaluate model performance using real-world metrics (F1, ROC-AUC, confusion matrix)  
-- Ensure compatibility with low-power hardware (e.g., Raspberry Pi, microcontrollers)
+<p align="center">
+  <img src="../system%20design%20occupancy%20monitoring%20TINYML.png" alt="System Overview" width="600"/>
+</p>
+
+- Predict occupancy from multi-sensor time-series data  
+- Optimize for **TinyML / Edge AI** deployment  
+- Evaluate using F1 Score, ROC-AUC, and Confusion Matrix  
+- Ensure compatibility with low-power platforms like **Raspberry Pi**
 
 ---
 
-## 🗂️ Dataset
+## 🗂️ Dataset Format
 
-CSV file:  
-```
-merged_env_motion.csv
+File required: `merged_env_motion.csv`
+
+```csv
+timestamp, temperature, humidity, alcohol, pm2.5, motion
+2024-01-01 00:00, 21.5, 45.2, 0.03, 12, 1
+...
 ```
 
-Must include:
-- Environmental features (e.g. `temperature`, `humidity`, `alcohol`, `pm2.5`)
-- Binary target: `motion` (0 = no motion, 1 = motion)
-- Timestamps and optional features (`light`, `smoke`, etc.) are handled automatically.
+- 🟢 Features: `temperature`, `humidity`, `alcohol`, `pm2.5`
+- 🔵 Label: `motion` (binary: 0 = no motion, 1 = motion)
+- ⏱️ Timestamp used for window slicing (optional)
 
 ---
 
-## 📈 Model Architecture
+## 🧠 Model Architecture
 
-```
-Input (100 timesteps, N features)
-↓
-Conv1D (64 filters) + BatchNorm + MaxPool
-↓
-Conv1D (128 filters) + BatchNorm + MaxPool
-↓
-Conv1D (256 filters) + BatchNorm + MaxPool
-↓
-Flatten → Dense(128) → Dropout
-↓
-Dense(64) → Dropout
-↓
-Output: Dense(1, sigmoid)
-```
+<p align="center">
+  <img src="../NN%20Architecture.png" alt="Conv1D Model Architecture" width="500"/>
+</p>
 
-Trained with:
-- Binary crossentropy loss
-- Adam optimizer
-- Class balancing
-- Early stopping on validation loss
+- Loss Function: **Binary Crossentropy**
+- Optimizer: **Adam**
+- Training techniques: **Class balancing**, **Early stopping**
 
 ---
 
-## 🧪 Evaluation Metrics
+## 📊 Evaluation Metrics
 
-All metrics are printed after training:
-- ✅ Accuracy
-- ✅ Precision
-- ✅ Recall
-- ✅ F1 Score
-- ✅ ROC-AUC
-- ✅ Log Loss
-- ✅ Confusion Matrix (Heatmap)
-- ✅ ROC Curve
+Model performance is assessed using:
+
+- ✔️ Accuracy, Precision, Recall  
+- ✔️ **F1 Score**, **ROC-AUC**, Log Loss  
+- ✔️ **Confusion Matrix** (heatmap)  
+- ✔️ **ROC Curve**
 
 ---
 
 ## 💾 Model Outputs
 
-- `best_conv1d_model.keras` – Native Keras format
-- `model_float32.tflite` – Full precision for testing
-- `model_float16.tflite` – Optimized for deployment (Edge AI / Raspberry Pi)
+| File | Format | Purpose |
+|------|--------|---------|
+| `best_conv1d_model.keras` | Keras | Native model checkpoint |
+| `model_float32.tflite` | TFLite | High-precision testing |
+| `model_float8.tflite` | TFLite | Deployment-ready, 8-bit quantized |
 
 ---
 
 ## 📦 Requirements
 
+Install the following packages:
+
 ```bash
 pip install pandas numpy scikit-learn tensorflow matplotlib seaborn
 ```
 
+📌 *Pandas and NumPy are essential for preprocessing and data handling.*
+
 ---
 
-## ▶️ How to Run
+## ▶️ Running the Project
+
+1. Ensure you're using a Linux-based SBC (e.g. Raspberry Pi) or a microcontroller with support for ML inference.
+2. Place your dataset file as `merged_env_motion.csv` in the working directory.
+3. Run:
 
 ```bash
 python occupancy_conv1d.py
 ```
 
-Ensure the CSV file is in the correct path and named `merged_env_motion.csv`.
-
 ---
 
 ## 🔗 Related Work
 
-- 📄 [Dissertation PDF](#) *(Upload and update the link when ready)*
-- 📊 [Project Poster](#) *(Optional)*
-- 💻 Runs on: Raspberry Pi 5 Model B (on-device inference tested)
+- 📄 [Project Poster](../poster.pdf)  
+- 🧪 Tested on: **Raspberry Pi 5 Model B** with on-device inference
 
 ---
 
-## 🛠️ Deployment Notes
+## 🚀 Deployment Notes
 
-- Model supports conversion to TFLite (float16) for **TinyML applications**
-- Ideal for integration with sensor platforms using **Python + TensorFlow Lite Runtime**
-- May be extended to real-time inference with camera + sensor fusion
+- Compatible with **TensorFlow Lite Micro** and **TFLite Runtime**
+- Suitable for **sensor fusion**, **real-time inference**, and **low-power ML**
+- Expandable to include **thermal imaging**, **infrared**, or **camera input**
 
 ---
 
 ## 📚 Citation
 
-If you use this in academic work:
-
 ```
-Y. B. Perez Condori, "Edge AI Occupancy Detection Using Conv1D and Environmental Sensor Data," Final Year Project, Brunel University London, 2025.
+Y. B. Perez Condori, "Edge AI Occupancy Detection Using Conv1D and Environmental Sensor Data," Final Year Project, Brunel University of London, 2025.
 ```
 
 ---
 
 ## 📄 License
 
-MIT License – use, share, or extend freely.
+MIT License – Free to use, modify, and distribute.

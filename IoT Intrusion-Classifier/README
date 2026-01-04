@@ -1,0 +1,156 @@
+IoT Intrusion Detection Using Deep Learning
+A 1D Convolutional Neural Network implementation for detecting network intrusions in IoT environments, with emphasis on handling severe class imbalance and computational efficiency.
+🎯 Project Overview
+This project addresses the critical challenge of detecting rare cyberattacks in IoT networks where class imbalance severely impacts detection rates. Traditional models often achieve high overall accuracy while completely missing minority attack classes—a critical failure in cybersecurity applications.
+Key Achievement: Improved recall for minority attack classes from 0% to 43% by strategically trading 10% overall accuracy for significantly better rare attack detection.
+📊 Dataset
+
+Source: IoT_Intrusion.csv (Kaggle)
+Type: Network traffic patterns with multiple attack categories
+Challenge: Severe class imbalance with rare attacks (Backdoor Malware, Browser Hijacking, XSS) having minimal representation
+
+Attack Categories Detected:
+
+Backdoor Malware
+Benign Traffic
+Browser Hijacking
+Command Injection
+DDoS variants (ACK Fragmentation, HTTP Flood, ICMP Flood, etc.)
+SQL Injection
+XSS
+And more...
+
+🏗️ Model Architecture
+Lightweight 1D-CNN Design
+Input Layer
+    ↓
+Conv1D(64 filters, kernel=5, padding=2) + BatchNorm + ReLU
+    ↓
+Conv1D(128 filters, kernel=3, padding=1) + BatchNorm + ReLU
+    ↓
+Conv1D(256 filters, kernel=3, padding=1) + BatchNorm + ReLU
+    ↓
+Global Average Pooling
+    ↓
+Fully Connected Layer
+    ↓
+Output (Multi-class Classification)
+Design Principles:
+
+Minimal layers for computational efficiency
+Small kernel sizes (5, 3, 3) to reduce parameters
+Strategic padding to maintain spatial consistency
+Suitable for edge device deployment
+
+🔬 Methodology
+1. Data Preprocessing
+
+Missing Value Handling: Mean imputation to preserve behavioral patterns
+Feature Analysis: Frequency analysis and feature importance calculation
+Normalization: Standard scaling for consistent feature ranges
+Protocol Handling: Specialized processing for network protocol columns
+
+2. Class Imbalance Solution
+
+Problem: Rare attacks had 0% detection rate initially
+Solution: Class-weighted cross-entropy loss with weights computed from inverse class frequencies
+Impact: Eliminated zero-recall behavior for minority classes
+
+3. Hyperparameter Optimization Journey
+Initial Approach: Genetic Algorithms
+
+Explored evolutionary optimization
+Switched due to computational efficiency concerns
+
+Final Approach: Bayesian Optimization
+
+More efficient hyperparameter search
+Guided by F1/Precision/Recall heatmaps
+Iterative refinement based on minority class performance
+
+Optimized Hyperparameters:
+
+Learning Rate: 0.0001 (Adam optimizer)
+Batch Size: 4096 (optimized for 32GB RAM)
+Epochs: 50
+Scheduler: ReduceLROnPlateau
+Loss Function: Class-weighted Cross-Entropy
+
+📈 Results
+Performance Metrics
+MetricBaselineFinal ModelChangeAccuracy91.45%81.45%-10.0%Recall~0% (minority)62.45%+62.45%Precision-54.36%-F1-Score-54.68%-
+Key Improvements by Attack Class
+Attack TypeBaseline RecallFinal RecallImprovementBackdoor Malware0.000.27+0.27Browser Hijacking0.000.43+0.43Command Injection0.100.14+0.04DDoS-HTTP Flood0.460.80+0.34
+The Strategic Trade-off
+Decision: Sacrificed 10% overall accuracy to achieve 62% recall
+Rationale: In cybersecurity applications, missing a rare attack (false negative) is far more costly than a false alarm (false positive). This model prioritizes detection capability over raw accuracy.
+🚀 Getting Started
+Prerequisites
+bashpip install torch torchvision
+pip install pandas numpy scikit-learn
+pip install matplotlib seaborn
+Installation
+bashgit clone https://github.com/YBenjaminPCondori/Machine-Learning-Gen-AI.git
+cd Machine-Learning-Gen-AI/IoT\ Intrusion
+Usage
+python# Load and preprocess data
+# (See notebook for detailed preprocessing steps)
+
+# Train model
+python train.py --epochs 50 --batch_size 4096 --lr 0.0001
+
+# Evaluate
+python evaluate.py --model_path checkpoints/best_model.pth
+📁 Repository Structure
+IoT Intrusion/
+├── notebooks/
+│   └── IoT_Intrusion_Detection.ipynb
+├── data/
+│   └── IoT_Intrusion.csv
+├── models/
+│   └── cnn_model.py
+├── utils/
+│   ├── preprocessing.py
+│   └── evaluation.py
+├── results/
+│   ├── confusion_matrices/
+│   └── performance_plots/
+└── README.md
+🎓 Academic Context
+Course: INM7062 - Programming and Mathematics for Artificial Intelligence
+Institution: City, St George's University of London
+Module Leader: Dr. Atif Riaz
+Focus: Deep Learning Networks Using PyTorch (Task 2)
+💡 Key Learnings
+
+Class Imbalance is Critical: High accuracy can mask complete failure on minority classes
+Optimization Matters: Choosing the right optimization strategy (Bayesian > Genetic for this case)
+Domain Knowledge: In security applications, recall often matters more than accuracy
+Efficiency by Design: Lightweight architectures enable edge deployment
+Trade-offs are Strategic: Understanding when to sacrifice one metric for another
+
+🔮 Future Work
+
+ Implement ensemble methods for improved minority class detection
+ Test on edge devices (Raspberry Pi, NVIDIA Jetson)
+ Explore attention mechanisms for interpretability
+ Real-time inference optimization
+ Transfer learning from similar network intrusion datasets
+
+🤖 GenAI Use Statement
+Generative AI tools were used to assist with code commenting and documentation formatting. All model implementations, experiments, hyperparameter optimization, and results were independently designed, executed, and validated.
+📚 References
+
+Dataset: IoT Intrusion Dataset - Kaggle
+PyTorch Documentation: https://pytorch.org/docs/
+Class Imbalance Techniques: Research papers on weighted loss functions
+
+👨‍💻 Author
+Yehoshua Benjamin Perez Condori
+Student ID: 250057607
+GitHub: @YBenjaminPCondori
+📄 License
+This project is part of academic coursework at City, St George's University of London.
+
+⭐ If you find this project interesting, please consider giving it a star!
+Connect with me: LinkedIn | GitHub

@@ -435,6 +435,7 @@ Trade-offs are Strategic: Understanding when to sacrifice one metric for another
 
 🤖 GenAI Use Statement
 Generative AI tools were used to assist with code commenting and documentation formatting. All model implementations, experiments, hyperparameter optimization, and results were independently designed, executed, and validated.
+
 📚 References
 
 Dataset: IoT Intrusion Dataset - Kaggle
@@ -443,23 +444,9 @@ Class Imbalance Techniques: Research papers on weighted loss functions
 
 👨‍💻 Author
 Yehoshua Benjamin Perez Condori
-Student ID: 250057607
 GitHub: @YBenjaminPCondori
+
 📄 License
 This project is part of academic coursework at City, St George's University of London.
 
-⭐ If you find this project interesting, please consider giving it a star!
-Connect with me: LinkedIn | GitHub`;
-        navigator.clipboard.writeText(markdown).then(() => {
-            const btn = document.querySelector('.copy-btn');
-            btn.textContent = 'Copied!';
-            btn.style.background = '#2ea043';
-            setTimeout(() => {
-                btn.textContent = 'Copy Markdown';
-                btn.style.background = '#238636';
-            }, 2000);
-        });
-    }
-</script>
-</body>
-</html>
+
